@@ -1,0 +1,514 @@
+/* ==========================================================================
+   A-Book — Sidebar content styling (template cards + element grid).
+   Preview-side element styling lives in each element's defaultCSS and the
+   shared stylesheet in elements.js.
+   ========================================================================== */
+
+/* ==========================================================================
+   Template panel
+   ========================================================================== */
+
+.ab-tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ab-tpl-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--ab-radius-md);
+  background: var(--ab-glass);
+  border: var(--ab-border);
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    transform        var(--ab-dur-base) var(--ab-ease-base),
+    border-color     var(--ab-dur-base) var(--ab-ease-base),
+    background-color var(--ab-dur-base) var(--ab-ease-base);
+}
+
+.ab-tpl-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ab-border-color-strong);
+  background: var(--ab-glass-hover);
+}
+
+.ab-tpl-card:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+.ab-tpl-card:focus-visible {
+  outline: none;
+  box-shadow: var(--ab-focus-ring);
+}
+
+.ab-tpl-card__preview {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--ab-radius-sm);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--ab-border-color-subtle);
+}
+
+.ab-tpl-card__preview-inner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+}
+
+.ab-tpl-card__icon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(10, 10, 32, 0.75);
+  border: 1px solid var(--ab-border-color);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ab-text);
+  font-size: 12px;
+}
+
+.ab-tpl-card__title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ab-text);
+  letter-spacing: -0.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+
+.ab-tpl-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--ab-accent-gradient);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ab-dur-base) var(--ab-ease-base);
+  z-index: 3;
+}
+
+.ab-tpl-card:hover::before {
+  opacity: var(--ab-accent-max);
+}
+
+/* ==========================================================================
+   Element panel — search
+   ========================================================================== */
+
+.ab-el-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 10px 0 12px;
+  border-radius: var(--ab-radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: var(--ab-border);
+  transition: border-color var(--ab-dur-fast) var(--ab-ease-base),
+              background-color var(--ab-dur-fast) var(--ab-ease-base);
+  margin-bottom: 12px;
+}
+
+.ab-el-search:hover {
+  border-color: var(--ab-border-color-strong);
+}
+
+.ab-el-search:focus-within {
+  border-color: rgba(126, 231, 255, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(126, 231, 255, 0.10);
+}
+
+.ab-el-search__icon {
+  color: var(--ab-text-tertiary);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ab-el-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  color: var(--ab-text);
+  font-size: 13px;
+  outline: none;
+}
+
+.ab-el-search__input::placeholder {
+  color: var(--ab-text-tertiary);
+}
+
+.ab-el-search__clear {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--ab-text-secondary);
+  font-size: 12px;
+  transition: background-color var(--ab-dur-fast) var(--ab-ease-base);
+}
+
+.ab-el-search__clear:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ab-text);
+}
+
+.ab-el-search.has-value .ab-el-search__clear {
+  display: inline-flex;
+}
+
+/* ==========================================================================
+   Element panel — categories accordion
+   ========================================================================== */
+
+.ab-el-cats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 8px;
+}
+
+.ab-el-cat {
+  border-radius: var(--ab-radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  overflow: hidden;
+  transition: border-color var(--ab-dur-fast) var(--ab-ease-base);
+}
+
+.ab-el-cat.is-open {
+  border-color: var(--ab-border-color);
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.ab-el-cat__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--ab-text);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: background-color var(--ab-dur-fast) var(--ab-ease-base);
+}
+
+.ab-el-cat__head:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ab-el-cat__head:focus-visible {
+  outline: none;
+  box-shadow: var(--ab-focus-ring);
+}
+
+.ab-el-cat__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ab-border-color-subtle);
+  color: var(--ab-text-secondary);
+  font-size: 12px;
+}
+
+.ab-el-cat__label {
+  flex: 1;
+  text-align: left;
+}
+
+.ab-el-cat__count {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ab-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  margin-right: 2px;
+}
+
+.ab-el-cat__chev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--ab-text-tertiary);
+  transition: transform var(--ab-dur-base) var(--ab-ease-base);
+}
+
+.ab-el-cat.is-open .ab-el-cat__chev {
+  transform: rotate(180deg);
+}
+
+.ab-el-cat__body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--ab-dur-base) var(--ab-ease-base),
+              opacity   var(--ab-dur-base) var(--ab-ease-base);
+  opacity: 0;
+}
+
+.ab-el-cat.is-open .ab-el-cat__body {
+  opacity: 1;
+}
+
+.ab-el-cat__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 10px 12px;
+}
+
+/* ==========================================================================
+   Element item (88×88)
+   ========================================================================== */
+
+.ab-el-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  height: 96px;
+  border-radius: var(--ab-radius-md);
+  background: var(--ab-glass);
+  border: var(--ab-border);
+  cursor: grab;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform        var(--ab-dur-base) var(--ab-ease-base),
+    border-color     var(--ab-dur-base) var(--ab-ease-base),
+    background-color var(--ab-dur-base) var(--ab-ease-base);
+}
+
+.ab-el-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--ab-border-color-strong);
+  background: var(--ab-glass-hover);
+}
+
+.ab-el-item:active {
+  cursor: grabbing;
+}
+
+.ab-el-item:focus-visible {
+  outline: none;
+  box-shadow: var(--ab-focus-ring);
+}
+
+.ab-el-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--ab-accent-gradient);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ab-dur-base) var(--ab-ease-base);
+  z-index: 3;
+}
+
+.ab-el-item:hover::before {
+  opacity: var(--ab-accent-max);
+}
+
+/* Drag-handle veil (visual only for now) */
+.ab-el-item__handle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, transparent 70%, rgba(0, 0, 0, 0.18));
+  opacity: 0;
+  transition: opacity var(--ab-dur-fast) var(--ab-ease-fast);
+  z-index: 1;
+}
+
+.ab-el-item:hover .ab-el-item__handle {
+  opacity: 1;
+}
+
+.ab-el-item__icon {
+  position: relative;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ab-border-color-subtle);
+  color: var(--ab-text);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.ab-el-item__label {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ab-text);
+  letter-spacing: -0.002em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   No results (search empty)
+   ========================================================================== */
+
+.ab-el-empty {
+  padding: 32px 16px;
+  text-align: center;
+  border-radius: var(--ab-radius-md);
+  border: 1px dashed var(--ab-border-color);
+  color: var(--ab-text-tertiary);
+  font-size: 12px;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+.reduce-motion .ab-el-cat__body {
+  transition: none;
+}
+
+/* ==========================================================================
+   Session 5 — Animation defaults for generated content
+   These classes are applied inside the preview iframe (the runtime injects
+   them into the iframe document), so they need to exist here too.
+   ========================================================================== */
+
+/* Cards, callouts, tables get the standard glass hover feel */
+.ab-card-simple:hover,
+.ab-card-it:hover,
+.ab-card-img:hover,
+.ab-profile:hover,
+.ab-tl-card:hover,
+.ab-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Accordion, tabs bodies fade-in on open */
+.ab-acc details[open] > .ab-acc__body,
+.ab-tabs__panel.is-active {
+  animation: ab-fade-in 300ms var(--ab-ease-base) both;
+}
+
+/* Buttons inside preview content get the thin iridescent sweep on click */
+.ab-btn-primary,
+.ab-btn-secondary,
+.ab-btn-ghost,
+.ab-btn-wi,
+.ab-btn-pill,
+.ab-group-a,
+.ab-group-b,
+.ab-hero-el__btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Tilt shine overlay used by [data-ab-tilt] on cards */
+.ab-tilt-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms var(--ab-ease-base);
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+[data-ab-tilt]:hover .ab-tilt-shine {
+  opacity: 1;
+}
+
+/* Reveal on scroll for authored content (opt-in via class) */
+.ab-reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  filter: blur(6px);
+  transition:
+    opacity   500ms var(--ab-ease-base),
+    transform 500ms var(--ab-ease-base),
+    filter    500ms var(--ab-ease-base);
+}
+
+.ab-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .ab-reveal,
+  .ab-reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
