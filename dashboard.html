@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Dashboard project A-Book.">
+  <meta name="theme-color" content="#020012">
+  <title>A-Book — Dashboard</title>
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <div class="ab-app">
+
+    <header class="ab-header glass" role="banner">
+      <a href="index.html" class="ab-header__brand" aria-label="A-Book, kembali ke halaman utama">
+        <span class="ab-header__logo">
+          <i data-lucide="book-open" aria-hidden="true"></i>
+        </span>
+        <span class="ab-header__name">A-Book</span>
+      </a>
+
+      <div class="ab-header__actions">
+        <button type="button"
+                class="ab-btn ab-btn--sm ab-btn--ghost"
+                id="btn-import"
+                title="Impor project (.abook)">
+          <i data-lucide="folder-up" aria-hidden="true"></i>
+          <span class="ab-btn__label">Impor</span>
+        </button>
+
+        <button type="button"
+                class="ab-btn ab-btn--sm iridescent-border"
+                id="btn-new">
+          <i data-lucide="plus" aria-hidden="true"></i>
+          <span class="ab-btn__label">Project Baru</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="ab-main" role="main">
+      <div class="ab-container">
+
+        <div class="ab-main__head">
+          <h1 class="ab-main__title">Project kamu</h1>
+          <p class="ab-main__subtitle text-secondary">
+            Kelola materi interaktif yang sudah kamu buat.
+          </p>
+        </div>
+
+        <section id="project-grid"
+                 class="ab-grid"
+                 aria-label="Daftar project"></section>
+
+        <section id="empty-state"
+                 class="ab-empty"
+                 hidden>
+          <span class="ab-empty__icon">
+            <i data-lucide="file-plus" aria-hidden="true"></i>
+          </span>
+          <h2 class="ab-empty__title">Belum ada project</h2>
+          <p class="ab-empty__text">Mulai dengan membuat project pertamamu.</p>
+          <button type="button"
+                  class="ab-btn iridescent-border"
+                  id="btn-empty-new">
+            <i data-lucide="plus" aria-hidden="true"></i>
+            Buat project pertama
+          </button>
+        </section>
+
+      </div>
+    </main>
+
+    <button type="button"
+            class="ab-fab"
+            id="fab-new"
+            aria-label="Buat project baru">
+      <i data-lucide="plus" aria-hidden="true"></i>
+    </button>
+
+  </div>
+
+  <!-- Hidden file input for .abook import -->
+  <input type="file"
+         id="import-input"
+         accept=".abook,application/octet-stream"
+         hidden>
+
+  <!-- Modal (create / rename / delete confirm) -->
+  <div class="ab-modal" id="modal" hidden>
+    <div class="ab-modal__backdrop" data-modal-close></div>
+
+    <div class="ab-modal__panel"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modal-title">
+
+      <button type="button"
+              class="ab-modal__close"
+              data-modal-close
+              aria-label="Tutup">
+        <i data-lucide="x" aria-hidden="true"></i>
+      </button>
+
+      <h2 class="ab-modal__title" id="modal-title"></h2>
+      <p class="ab-modal__text" id="modal-text" hidden></p>
+
+      <label class="ab-field" id="modal-field">
+        <span class="ab-field__label">Nama project</span>
+        <input class="ab-input"
+               id="modal-input"
+               type="text"
+               autocomplete="off"
+               spellcheck="false"
+               maxlength="80">
+      </label>
+
+      <div class="ab-modal__actions">
+        <button type="button" class="ab-btn ab-btn--ghost" data-modal-close>Batal</button>
+        <button type="button" class="ab-btn" id="modal-confirm">Buat</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/icons/lucide-inline.js"></script>
+  <script src="assets/icons/lucide-inline-ext.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/exporter.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
